@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shadow DOM Script Encapsulation</title>
+    <style>
+        /*:root {*/
+        /*    --bg-color: #aeefdf;*/
+        /*}*/
+        body[theme='dark'] {
+            background-color: #333;
+            /*background: var(--bg-color);*/
+        }
+    </style>
+</head>
+<body theme="light">
+
+<span style="font-size: inherit; color: var(--text-color)">light DOM html element</span>
+
+<div class="test">
+    <a href="#">is not visible</a>
+    <style>
+        @font-face {
+            font-family: "Avenir Next LT Pro";
+            font-style: normal;
+            font-weight: 400;
+            src: url(https://assets.leasehawk.com/fonts/avenir/35BCC0_4_0.woff2) format('woff2');
+            src: url(https://assets.leasehawk.com/fonts/avenir/35BCC0_4_0.woff) format('woff');
+        }
+    </style>
+    <template shadowrootmode="open">
+        <style>
+            /*:root {*/
+            /*    --bg-color: #369;*/
+            /*}*/
+
+            :host(.test) {
+                font-size: 18px;
+                font-family: "Avenir Next LT Pro", serif;
+                color: var(--text-color);
+            }
+
+            :host-context(body[theme='light']) {
+                --text-color: #333;
+                font-size: 25px;
+            }
+
+            :host-context(body[theme='dark']) {
+                --text-color: #fff;
+            }
+
+            :host-context(.test) {
+                font-weight: bold;
+                /*background: var(--bg-color);*/
+            }
+        </style>
+        <p>
+            <span>Lorem ipsum dolor.</span>
+            Lorem ipsum dolor sit amet.
+        </p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
+        <p>Lorem ipsum dolor sit amet, consectetur adipisicing.</p>
+    </template>
+    <a href="#">is not visible</a>
+</div>
+
+<button onclick="toggleTheme()">
+    toggle theme
+</button>
+
+
+<script>
+  function toggleTheme() {
+    const theme = document.body.getAttribute('theme');
+    document.body.setAttribute('theme', theme === 'light' ? 'dark' : 'light');
+  }
+</script>
+</body>
+</html>
